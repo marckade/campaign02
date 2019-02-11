@@ -63,26 +63,92 @@ public class Simulation {
 
         for(int i = 1; i <= maxNumQueues; i++)
         {
+            // Count the number of ques based on how many times the iteration goes through.
             numberOfQues = i;
 
             for(int j = 0; j < numIterations; j++)
             {
+                // Call create que method.
                 createQueue();
 
-                for(int k = 0; k <= 720; k++)
+                for(int k = 1; k <= 720; k++)
                 {
+                    // Sets the iteration to the current time so we can store it for the people.
+                    curTime = k;
+                    addToLines();
+                    removePeople();
+                }
 
+                iterWait += queWaitTime / peopleFinished;
+            }
+
+            System.out.println("Average wait time using "
+                    +(numberOfQues)+" queue(s): "+(iterWait / numIterations));
+
+            peopleFinished = 0;
+            queWaitTime = 0;
+            iterWait = 0;
+
+        }
+
+    }
+
+    public void removePeople()
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            for(int j = 0; j < numberOfQues; j++)
+            {
+                if(lines[j].size() > 0)
+                {
+                    queWaitTime += curTime - lines[j].poll();
+                    peopleFinished += 1;
                 }
             }
         }
+    }
+
+    public void addToLines()
+    {
+        // Creat int to store the random seed created by Isaac's method.
+        int people = getRandomNumPeople(arrivalRate);
+
+        //Loop through the random'd number above and add a person to the shortest que (line)
+        for(int i = 0; i < people; i++)
+        {
+            //Sets the smallest que to the first var as a failcheck if the size of the que is only 1.
+            int smallestQue = lines[0].size();
+            int smallestQueIndex = 0; //Set to 0 as failsafe.
+
+          // Loops through the lines.
+            for(int j = 0; j <numberOfQues; j++)
+            {
+                //Create a temp variable to store the size of the lines we are looping through.
+                int currentIterationSize = 0;
+
+                //Set the temp variable to the current line via the loop.
+                currentIterationSize = lines[j].size();
+
+                //If that current size is smaller than the rest, replace it as the smallest along with index.
+                if(currentIterationSize < smallestQue)
+                {
+                    smallestQue = currentIterationSize;
+                    smallestQueIndex = j;
+                }
+            }
 
 
+            lines[smallestQueIndex].offer(curTime - 1);
+
+        }
     }
 
     public void createQueue()
     {
+        // Initiaiate the array of ques.
         lines = new LinkedQueue[numberOfQues];
 
+        //Loop and create a linked Que for each line.
         for(int i = 0; i < numberOfQues; i++)
         {
             lines[i] = new LinkedQueue<>();
