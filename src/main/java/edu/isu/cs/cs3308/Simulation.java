@@ -61,6 +61,8 @@ public class Simulation {
 
         //Queues are lines in this case. We will need a certain amount of them depending on the amount of lines
 
+        System.out.println("Arrival rate is:" + arrivalRate);
+
         for(int i = 1; i <= maxNumQueues; i++)
         {
             // Count the number of ques based on how many times the iteration goes through.
@@ -93,6 +95,7 @@ public class Simulation {
 
     }
 
+    //
     public void removePeople()
     {
         for(int i = 0; i < 2; i++)
