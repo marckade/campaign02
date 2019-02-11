@@ -16,7 +16,13 @@ public class Simulation {
     private int maxNumQueues;
     private Random r;
     private int numIterations = 50;
-    // You will probably need more fields
+    private int numberOfQues = 0;
+    private int curTime = 0;
+    private int peopleFinished = 0;
+    private int queWaitTime = 0;
+    private int iterWait = 0;
+    private LinkedQueue<Integer>[] lines;
+
 
     /**
      * Constructs a new simulation with the given arrival rate and maximum number of queues. The Random
@@ -52,7 +58,35 @@ public class Simulation {
      * Executes the Simulation
      */
     public void runSimulation() {
-        throw new UnsupportedOperationException("Not yet implemented");
+
+        //Queues are lines in this case. We will need a certain amount of them depending on the amount of lines
+
+        for(int i = 1; i <= maxNumQueues; i++)
+        {
+            numberOfQues = i;
+
+            for(int j = 0; j < numIterations; j++)
+            {
+                createQueue();
+
+                for(int k = 0; k <= 720; k++)
+                {
+
+                }
+            }
+        }
+
+
+    }
+
+    public void createQueue()
+    {
+        lines = new LinkedQueue[numberOfQues];
+
+        for(int i = 0; i < numberOfQues; i++)
+        {
+            lines[i] = new LinkedQueue<>();
+        }
     }
 
     /**
